@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="no_demos">No Demos</string>
+
+    <string name="custom_title_demo">个性化地图功能</string>
+    <string name="custom_description_demo">扫码展示个性化地图</string>
+    <string name="demo_title">AMapDemo</string>
+
+
+</resources>
