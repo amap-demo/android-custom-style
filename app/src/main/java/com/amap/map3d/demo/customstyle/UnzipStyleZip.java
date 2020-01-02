@@ -32,12 +32,16 @@ public class UnzipStyleZip {
             ZipEntry ze;
             while ((ze = zipInputStream.getNextEntry()) != null) {
                 if (!ze.isDirectory()) {
-                    if (ze.getName().equals("style.data")) {
-                        unzipStyleItem.setStyleData(readByteByStream(zipInputStream));
-                    } else if (ze.getName().equals("style_extra.data")) {
-                        unzipStyleItem.setStyleExtraData(readByteByStream(zipInputStream));
-                    } else if (ze.getName().equals("textures.zip")) {
-                        unzipStyleItem.setStyleTextureData(readByteByStream(zipInputStream));
+                    try {
+                        if (ze.getName().equals("style.data")) {
+                            unzipStyleItem.setStyleData(readByteByStream(zipInputStream));
+                        } else if (ze.getName().equals("style_extra.data")) {
+                            unzipStyleItem.setStyleExtraData(readByteByStream(zipInputStream));
+                        } else if (ze.getName().equals("textures.zip")) {
+                            unzipStyleItem.setStyleTextureData(readByteByStream(zipInputStream));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
 
@@ -46,7 +50,7 @@ public class UnzipStyleZip {
             zipInputStream.close();
 
             return unzipStyleItem;
-        } catch (IOException e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         return null;
@@ -82,7 +86,7 @@ public class UnzipStyleZip {
         UnzipStyleItem unzipStyleItem = unzipStyleByStream(inputStream);
         try {
             inputStream.close();
-        } catch (IOException e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         return unzipStyleItem;

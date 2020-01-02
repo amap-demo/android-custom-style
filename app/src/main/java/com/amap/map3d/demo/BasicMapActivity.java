@@ -6,8 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,6 +46,8 @@ public class BasicMapActivity extends Activity implements OnClickListener, Downl
 
         init();
     }
+
+
 
     /**
      * 初始化AMap对象
@@ -116,7 +116,7 @@ public class BasicMapActivity extends Activity implements OnClickListener, Downl
             UnzipStyleItem unzipStyleItem = unzipStyle.unzipStyleByData(data);
 
             // 设置自定义样式
-            if (unzipStyleItem != null && aMap != null) {
+            if (unzipStyleItem != null && aMap != null && unzipStyleItem.getStyleData() != null) {
                 aMap.setCustomMapStyle(new CustomMapStyleOptions()
                         .setEnable(true)
                         .setStyleData(unzipStyleItem.getStyleData())
@@ -125,7 +125,7 @@ public class BasicMapActivity extends Activity implements OnClickListener, Downl
                 );
                 ToastUtil.show("样式设置成功");
             } else {
-                ToastUtil.show("样式解压失败");
+                ToastUtil.show("样式解压失败，请确认二维码正确");
             }
         } else {
             ToastUtil.show("样式下载失败");
@@ -220,10 +220,5 @@ public class BasicMapActivity extends Activity implements OnClickListener, Downl
             ToastUtil.show("扫码失败");
         }
     }
-
-
-
-
-
 
 }

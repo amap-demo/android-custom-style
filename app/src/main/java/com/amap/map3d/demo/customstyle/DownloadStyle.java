@@ -61,11 +61,11 @@ public class DownloadStyle {
             return;
 
         } catch (MalformedURLException mue) {
-            Log.e("SYNC getUpdate", "malformed url error", mue);
+            Log.e("amap", "malformed url error", mue);
         } catch (IOException ioe) {
-            Log.e("SYNC getUpdate", "io error", ioe);
+            Log.e("amap", "io error", ioe);
         } catch (SecurityException se) {
-            Log.e("SYNC getUpdate", "security error", se);
+            Log.e("amap", "security error", se);
         }
         if (downloadListener != null) {
             downloadListener.onDownload(null);

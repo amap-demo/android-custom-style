@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:onClick="onClick"
-            android:text="扫码展示地图"
+            android:text="扫码展示自定义样式"
             />
 
     </LinearLayout>
