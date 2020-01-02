@@ -9,13 +9,15 @@ Android_Map_Game
 
 
 
-
-
 ##使用方法：
 
 **1.搭建高德地图 AndroidSDK 工程方法见**
 [地图SDK使用方法](http://developer.amap.com/api/android-sdk/summary/)
 
+
+##扫码功能说明
+
+扫码功能参考的是网上示例，如果要用于上上线，建议自行处理
 
 ##扫一扫安装
 

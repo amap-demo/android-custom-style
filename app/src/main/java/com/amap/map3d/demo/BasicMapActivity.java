@@ -1,18 +1,28 @@
 package com.amap.map3d.demo;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.CheckBox;
 
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.MapsInitializer;
 import com.amap.api.maps.TextureMapView;
 import com.amap.api.maps.model.CustomMapStyleOptions;
 import com.amap.map3d.demo.customstyle.DownloadStyle;
 import com.amap.map3d.demo.customstyle.UnzipStyleItem;
 import com.amap.map3d.demo.customstyle.UnzipStyleZip;
+import com.amap.map3d.demo.qrcode.activity.CaptureActivity;
+import com.amap.map3d.demo.qrcode.util.Constant;
+import com.amap.map3d.demo.util.PremissionUtils;
+import com.amap.map3d.demo.util.ToastUtil;
 
 
 /**
@@ -31,6 +41,7 @@ public class BasicMapActivity extends Activity implements OnClickListener, Downl
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.basicmap_activity);
+        setTitle("个性化地图Demo " + MapsInitializer.getVersion());
 
         mapView = (TextureMapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);// 此方法必须重写
@@ -48,15 +59,6 @@ public class BasicMapActivity extends Activity implements OnClickListener, Downl
     }
 
 
-
-    /**
-     * 方法必须重写
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mapView.onResume();
-    }
 
     /**
      * 方法必须重写
@@ -89,9 +91,7 @@ public class BasicMapActivity extends Activity implements OnClickListener, Downl
     public void onClick(View v) {
         if (v.getId() == R.id.scan_style) {
             // 开启扫码
-
-            startDownloadCustomStyle("http://cn-hangzhou.oss-pub.aliyun-inc.com/amap-api/comm/upload/mystyle_sdk_1577794047_0100.zip");
-
+            startQrCode();
         }
     }
 
@@ -123,8 +123,107 @@ public class BasicMapActivity extends Activity implements OnClickListener, Downl
                         .setStyleExtraData(unzipStyleItem.getStyleExtraData())
                         .setStyleTextureData(unzipStyleItem.getStyleTextureData())
                 );
+                ToastUtil.show("样式设置成功");
+            } else {
+                ToastUtil.show("样式解压失败");
             }
+        } else {
+            ToastUtil.show("样式下载失败");
         }
     }
+
+   /*************************************** 权限检查******************************************************/
+
+    /**
+     * 需要进行检测的权限数组
+     */
+    protected String[] needPermissions = {
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.CAMERA
+    };
+
+    /**
+     * 判断是否需要检测，防止不停的弹框
+     */
+    private boolean isNeedCheck = true;
+
+    private PremissionUtils permissionUtils = null;
+
+
+    @Override
+    protected void onResume() {
+        try{
+            super.onResume();
+            mapView.onResume();
+            if (Build.VERSION.SDK_INT >= 23) {
+
+                if (permissionUtils == null) {
+                    permissionUtils = new PremissionUtils(this);
+                }
+                if (isNeedCheck) {
+                    permissionUtils.checkPermissions(needPermissions);
+                }
+            }
+        }catch(Throwable e){
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    @TargetApi(23)
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] paramArrayOfInt) {
+        try{
+            if (Build.VERSION.SDK_INT >= 23) {
+
+                if (permissionUtils != null) {
+                    isNeedCheck = !permissionUtils.onRequestPermissionsResult(requestCode, permissions, paramArrayOfInt);
+                }
+
+            }
+        }catch(Throwable e){
+            e.printStackTrace();
+        }
+    }
+
+    /*************************************** 权限检查******************************************************/
+
+
+    // 开始扫码
+    private void startQrCode() {
+        // 二维码扫码
+        Intent intent = new Intent(BasicMapActivity.this, CaptureActivity.class);
+        startActivityForResult(intent, Constant.REQ_QR_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //扫描结果回调
+        if (requestCode == Constant.REQ_QR_CODE && resultCode == RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            String scanResult = bundle.getString(Constant.INTENT_EXTRA_KEY_QR_SCAN);
+
+            Log.i("amap","scanResult " + scanResult);
+
+            if (scanResult != null) {
+                startDownloadCustomStyle(scanResult.trim());
+            } else {
+                ToastUtil.show("扫码失败,扫描内容为空");
+            }
+        } else {
+            ToastUtil.show("扫码失败");
+        }
+    }
+
+
+
+
+
 
 }

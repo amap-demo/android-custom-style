@@ -5,8 +5,20 @@
     <string name="no_demos">No Demos</string>
 
     <string name="custom_title_demo">个性化地图功能</string>
+
     <string name="custom_description_demo">扫码展示个性化地图</string>
     <string name="demo_title">AMapDemo</string>
+
+
+    <string name="scan_title_demo">扫码</string>
+    <string name="layout_scan">Scan</string>
+    <string name="layout_album">select</string>
+    <string name="layout_focus_qrcode">扫二维码</string>
+
+    <string name="note_processing">processing...</string>
+    <string name="note_identify_failed">identify failed</string>
+    <string name="note_scan_failed">scan failed</string>
+    <string name="note_no_flashlight">cannot open flashlight</string>
 
 
 </resources>

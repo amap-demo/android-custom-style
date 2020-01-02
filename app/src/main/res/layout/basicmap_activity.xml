@@ -15,14 +15,21 @@
         android:layout_alignParentLeft="true"
         android:orientation="vertical"
         android:visibility="visible">
-    <Button
-        android:id="@+id/scan_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:onClick="onClick"
-        android:text="开启个性化地图"
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/red"
+            android:text="Demo Key 不支持带纹理的样式，如果有需要可以参考源码自行修改使用(https://github.com/amap-demo/android-custom-style)"
+            />
+        <Button
+            android:id="@+id/scan_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:onClick="onClick"
+            android:text="扫码展示地图"
+            />
 
     </LinearLayout>
 
