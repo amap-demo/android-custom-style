@@ -41,10 +41,10 @@ public class PremissionUtils {
                         && needRequestPermissonList.size() > 0) {
                     try {
                         String[] array = needRequestPermissonList.toArray(new String[needRequestPermissonList.size()]);
-                        Method method = getClass().getMethod("requestPermissions", new Class[]{String[].class, int.class});
-                        method.invoke(this, array, 0);
+                        Method method = this.activity.getClass().getMethod("requestPermissions", new Class[]{String[].class, int.class});
+                        method.invoke(this.activity, array, 0);
                     } catch (Throwable e) {
-
+                        e.printStackTrace();
                     }
                 }
             }
@@ -83,7 +83,7 @@ public class PremissionUtils {
     private int checkMySelfPermission(String perm) {
         try {
             Method method = getClass().getMethod("checkSelfPermission", new Class[]{String.class});
-            Integer permissionInt = (Integer) method.invoke(this, perm);
+            Integer permissionInt = (Integer) method.invoke(this.activity, perm);
             return permissionInt;
         } catch (Throwable e) {
         }
@@ -92,8 +92,8 @@ public class PremissionUtils {
 
     private boolean shouldShowMyRequestPermissionRationale(String perm) {
         try {
-            Method method = getClass().getMethod("shouldShowRequestPermissionRationale", new Class[]{String.class});
-            Boolean permissionInt = (Boolean) method.invoke(this, perm);
+            Method method = this.activity.getClass().getMethod("shouldShowRequestPermissionRationale", new Class[]{String.class});
+            Boolean permissionInt = (Boolean) method.invoke(this.activity, perm);
             return permissionInt;
         } catch (Throwable e) {
         }
@@ -128,7 +128,7 @@ public class PremissionUtils {
      * @return
      */
     public boolean onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] paramArrayOfInt) {
+                                              String[] permissions, int[] paramArrayOfInt) {
         try{
             if (Build.VERSION.SDK_INT >= 23) {
                 if (requestCode == PERMISSON_REQUESTCODE) {
@@ -204,3 +204,4 @@ public class PremissionUtils {
         }
     }
 }
+
