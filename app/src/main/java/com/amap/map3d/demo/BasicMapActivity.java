@@ -182,7 +182,7 @@ public class BasicMapActivity extends Activity implements OnClickListener, Downl
             if (Build.VERSION.SDK_INT >= 23) {
 
                 if (permissionUtils != null) {
-                    isNeedCheck = !permissionUtils.onRequestPermissionsResult(requestCode, permissions, paramArrayOfInt);
+                    isNeedCheck = permissionUtils.onRequestPermissionsResult(requestCode, permissions, paramArrayOfInt);
                 }
 
             }
@@ -197,8 +197,10 @@ public class BasicMapActivity extends Activity implements OnClickListener, Downl
     // 开始扫码
     private void startQrCode() {
         // 二维码扫码
-        Intent intent = new Intent(BasicMapActivity.this, CaptureActivity.class);
-        startActivityForResult(intent, Constant.REQ_QR_CODE);
+//        Intent intent = new Intent(BasicMapActivity.this, CaptureActivity.class);
+//        startActivityForResult(intent, Constant.REQ_QR_CODE);
+
+        startDownloadCustomStyle("http://lbsnew.amap.com/dev/mapstyle/q-id?id=855481a2a8d3ea29eca3cc247845b664&t=1580902952240");
     }
 
     @Override

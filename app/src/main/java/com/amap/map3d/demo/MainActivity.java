@@ -132,7 +132,7 @@ public final class MainActivity extends ListActivity {
             if (Build.VERSION.SDK_INT >= 23) {
 
                 if (permissionUtils != null) {
-                    isNeedCheck = !permissionUtils.onRequestPermissionsResult(requestCode, permissions, paramArrayOfInt);
+                    isNeedCheck = permissionUtils.onRequestPermissionsResult(requestCode, permissions, paramArrayOfInt);
                 }
 
             }
