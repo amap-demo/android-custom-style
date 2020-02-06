@@ -125,10 +125,10 @@ public class BasicMapActivity extends Activity implements OnClickListener, Downl
                 );
                 ToastUtil.show("样式设置成功");
             } else {
-                ToastUtil.show("样式解压失败，请确认二维码正确");
+                ToastUtil.show("样式解压失败，请确认二维码是否正确或过期");
             }
         } else {
-            ToastUtil.show("样式下载失败");
+            ToastUtil.show("样式下载失败, 请确认二维码是否正确或过期");
         }
     }
 
